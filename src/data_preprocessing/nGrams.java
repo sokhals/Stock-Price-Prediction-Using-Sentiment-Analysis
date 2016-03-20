@@ -1,13 +1,13 @@
 import java.util.*;
 
 public class nGrams {
-	 public static List<List<String>> ngrams(int n, HashMap<Integer,String> str) {
-	        List<List<String>> ngrams = new ArrayList<List<String>>();
+	 public static HashMap<Integer,List<String>> ngrams(int n, HashMap<Integer,String> str) {
+		 HashMap<Integer,List<String>> ngrams = new HashMap<Integer,List<String>>();
 	        for (int i = 0; i < str.size() - n + 1; i++){
 	        	List<String> gram = new ArrayList<String>();
 	        	for(int j=0; j<n; j++)
 	        		gram.add(str.get(i+j));
-	        	ngrams.add(gram);
+	        	ngrams.put(i, gram);
 	        	}
 	        return ngrams;
 	    }
@@ -23,7 +23,7 @@ public class nGrams {
 	    	myMap.put(6, "fly");
 	    	//change the value of n to get the no.of ngrams you want
 	    	int n = 3;
-	    		List<List<String>> ngram = ngrams(n, myMap);
+	    	HashMap<Integer,List<String>> ngram = ngrams(n, myMap);
 	                System.out.println(ngram);
 	    }
 }
