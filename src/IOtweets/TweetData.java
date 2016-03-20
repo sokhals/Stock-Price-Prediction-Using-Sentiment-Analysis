@@ -4,17 +4,16 @@
  * and open the template in the editor.
  */
 
-package data_preprocessing;
+package IOtweets;
 
 /**
  *
  * @author surindersokhal
  */
-public class TweetData {
+public class TweetData implements java.io.Serializable {
     
     public String Time;
-    public String User_ID;
     public String Tweet;
-    public String ReTweetCount;
+    public int ReTweetCount;
     
 }
