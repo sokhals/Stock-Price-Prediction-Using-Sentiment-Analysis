@@ -1,0 +1,20 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+package data_preprocessing;
+
+/**
+ *
+ * @author surindersokhal
+ */
+public class TweetData {
+    
+    public String Time;
+    public String User_ID;
+    public String Tweet;
+    public String ReTweetCount;
+    
+}
