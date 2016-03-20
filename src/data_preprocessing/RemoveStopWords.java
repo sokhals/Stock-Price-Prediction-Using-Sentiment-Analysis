@@ -8,9 +8,16 @@ package data_preprocessing;
 
 
 
+import IOtweets.TweetData;
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileReader;
+import java.io.InputStream;
+import java.io.ObjectInput;
+import java.io.ObjectInputStream;
+import java.util.HashMap;
 import java.util.HashSet;
 
 /**
@@ -40,5 +47,30 @@ public class RemoveStopWords {
                 set.add(words[i]);
         }
         return set.toArray(new String[set.size()]);
+    }
+    
+    public static void reaDataFile(){
+        try{
+            InputStream file = new FileInputStream("inputFiles/output_priyanka.txt");
+            InputStream buffer = new BufferedInputStream(file);
+            ObjectInput input = new ObjectInputStream (buffer);
+            HashMap<String,TweetData> data=(HashMap<String,TweetData>)input.readObject();
+            for(String userID:data.keySet()){
+                TweetData tweet=data.get(userID);
+                String text=tweet.Tweet;
+                String cleanedTweet[]=cleanData(text);
+                
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+    
+    public static String[] cleanData(String tweet){
+        String split[]=tweet.split(" ");
+        String[] tokens=containStopWords(split);
+        tokens=Stemming.performStemming(tokens);
+        tokens=CleaningOOVWords.cleanOOVWords(tokens);
+        return tokens;
     }
 }

@@ -12,4 +12,7 @@ package data_preprocessing;
  */
 public class CleaningOOVWords {
     
+    public static String[] cleanOOVWords(String array[]){
+        return array;
+    }
 }
