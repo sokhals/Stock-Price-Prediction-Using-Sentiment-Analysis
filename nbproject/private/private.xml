@@ -3,12 +3,17 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/Users/surindersokhal/NetBeansProjects/SentimentAnalysis/src/IOtweets/WriteTweets.java</file>
+            <file>file:/Users/surindersokhal/NetBeansProjects/SentimentAnalysis/src/IOtweets/ReadingData.java</file>
+            <file>file:/Users/surindersokhal/NetBeansProjects/SentimentAnalysis/src/data_preprocessing/Stemming.java</file>
             <file>file:/Users/surindersokhal/NetBeansProjects/SentimentAnalysis/src/Evaluation/Readme.txt</file>
+            <file>file:/Users/surindersokhal/NetBeansProjects/SentimentAnalysis/src/data_preprocessing/CleaningOOVWords.java</file>
             <file>file:/Users/surindersokhal/NetBeansProjects/SentimentAnalysis/src/SentimentAnalysis/Readme.txt</file>
-            <file>file:/Users/surindersokhal/NetBeansProjects/SentimentAnalysis/src/data_preprocessing/Readme.txt</file>
-            <file>file:/Users/surindersokhal/NetBeansProjects/SentimentAnalysis/src/data_preprocessing/TweetData.java</file>
+            <file>file:/Users/surindersokhal/NetBeansProjects/SentimentAnalysis/src/data_preprocessing/nGrams.java</file>
             <file>file:/Users/surindersokhal/NetBeansProjects/SentimentAnalysis/src/StockPrediction/Readme.txt</file>
-            <file>file:/Users/surindersokhal/NetBeansProjects/SentimentAnalysis/src/data_preprocessing/ReadingData.java</file>
+            <file>file:/Users/surindersokhal/NetBeansProjects/SentimentAnalysis/src/IOtweets/Readme.txt</file>
+            <file>file:/Users/surindersokhal/NetBeansProjects/SentimentAnalysis/src/data_preprocessing/RemoveStopWords.java</file>
+            <file>file:/Users/surindersokhal/NetBeansProjects/SentimentAnalysis/src/IOtweets/TweetData.java</file>
         </group>
     </open-files>
 </project-private>

@@ -43,6 +43,7 @@ public class ReadingData {
                     jsonObject = new JSONObject(read);
                     String text = jsonObject.getString("text");
                     if ((text.contains("stock") && text.contains(companyID)) || (text.contains("stock") && text.contains(company)) || text.contains("stocks")) {
+                        System.out.println(text+"\n");
                         if (jsonObject.has("retweeted_status")) {
                             getRetweetCount(jsonObject, map, text);
                         } else {
@@ -55,6 +56,7 @@ public class ReadingData {
             }
         }
         System.out.println("Done Reading Tweets\n Writing Tweets");
+        System.out.println(map.get("555296885").Tweet);
         WriteTweets.writeTweets(map, fileName);
         System.out.println("Done Writing Tweets");
         
