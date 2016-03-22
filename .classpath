@@ -4,8 +4,8 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
 	<classpathentry kind="lib" path="jarRequired/java-json 2.jar"/>
 	<classpathentry kind="lib" path="jarRequired/lucene-snowball.jar"/>
-	<classpathentry kind="lib" path="/Users/Priyanka/Desktop/Data Mining/Project/stanford-postagger-2015-12-09/lib/slf4j-api-1.7.19.jar"/>
-	<classpathentry kind="lib" path="/Users/Priyanka/Desktop/Data Mining/Project/stanford-postagger-2015-12-09/lib/slf4j-simple-1.7.19.jar"/>
-	<classpathentry kind="lib" path="/Users/Priyanka/Desktop/Data Mining/Project/stanford-postagger-2015-12-09/stanford-postagger.jar"/>
+	<classpathentry kind="lib" path="jarRequired/slf4j-api-1.7.19.jar"/>
+	<classpathentry kind="lib" path="jarRequired/slf4j-simple-1.7.19.jar"/>
+	<classpathentry kind="lib" path="jarRequired/stanford-postagger.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
