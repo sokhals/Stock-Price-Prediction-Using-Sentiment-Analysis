@@ -9,6 +9,8 @@ package data_preprocessing;
 
 
 import IOtweets.TweetData;
+import IOtweets.WriteTweets;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.File;
@@ -50,29 +52,44 @@ public class RemoveStopWords {
         return set.toArray(new String[set.size()]);
     }
     
-    public static void reaDataFile(){
+    public static void reaDataFile(String fileName){
         try{
-            InputStream file = new FileInputStream("inputFiles/output_priyanka.txt");
+            InputStream file = new FileInputStream("inputFiles/"+fileName+".txt");
             InputStream buffer = new BufferedInputStream(file);
             ObjectInput input = new ObjectInputStream (buffer);
             HashMap<String,TweetData> data=(HashMap<String,TweetData>)input.readObject();
+            System.out.println("Filtering data");
             for(String userID:data.keySet()){
                 TweetData tweet=data.get(userID);
-                String text=tweet.Tweet;
-                String cleanedTweet[]=cleanData(text);
-                
+                tweet=cleanData(tweet);
+                data.put(userID, tweet);
             }
+            System.out.println("Done Filtering data");
+            System.out.println("Writing data");
+            WriteTweets.writeTweets(data, fileName);
+            System.out.println("Writing done");
             input.close();
         }catch(Exception e){
             e.printStackTrace();
         }
     }
     
-    public static String[] cleanData(String tweet){
+    public static TweetData cleanData(TweetData data){
+    	String tweet=data.Tweet;
         String split[]=tweet.split(" ");
         String[] tokens=containStopWords(split);
         tokens=Stemming.performStemming(tokens);
         tokens=CleaningOOVWords.cleanOOVWords(tokens);
-        return tokens;
+        data.Tweet=buildString(tokens);
+        data=POSTagging.POSTagged(data);
+        
+        return data;
+    }
+    public static String buildString(String[] tokens){
+    	StringBuilder build=new StringBuilder();
+    	for(int i=0;i<tokens.length;i++){
+    		build.append(tokens[i]+" ");
+    	}
+    	return build.toString();
     }
 }

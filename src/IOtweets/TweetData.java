@@ -6,6 +6,8 @@
 
 package IOtweets;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author surindersokhal
@@ -15,5 +17,11 @@ public class TweetData implements java.io.Serializable {
     public String Time;
     public String Tweet;
     public int ReTweetCount;
-   
+    public ArrayList<TaggedValues> tagedList=null;
+    
+    public class TaggedValues{
+    	public String tag;
+    	public String value;
+    }
 }
+ 
