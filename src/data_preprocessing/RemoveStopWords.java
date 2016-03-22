@@ -35,6 +35,7 @@ public class RemoveStopWords {
             while((read=bf.readLine())!=null){
                 stopList.add(read.trim().toLowerCase());
             }
+            bf.close();
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -61,6 +62,7 @@ public class RemoveStopWords {
                 String cleanedTweet[]=cleanData(text);
                 
             }
+            input.close();
         }catch(Exception e){
             e.printStackTrace();
         }
