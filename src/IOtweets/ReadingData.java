@@ -79,7 +79,7 @@ public class ReadingData {
 		}
 		System.out.println("Done Reading Tweets\n Writing Tweets");
 		System.out.println(map.get("555296885").Tweet);
-		WriteTweets.writeTweets(map, fileName);
+		WriteTweets.writeTweets(map, file.getName().substring(0,file.getName().indexOf(".json")));
 		System.out.println("Done Writing Tweets");
 		}
 	}
