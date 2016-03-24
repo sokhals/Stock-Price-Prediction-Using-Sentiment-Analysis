@@ -34,9 +34,8 @@ public class ReadingData {
 	 * @return
 	 */
 	public boolean tweetContains(String text, String array[]) {
-		if (text.contains(array[0].toLowerCase()))
-			return true;
-		for (int i = 1; i < array.length; i++) {
+		
+		for (int i = 0; i < array.length; i++) {
 			if (text.contains(array[i].toLowerCase()) && text.contains("stock"))
 				return true;
 		}
@@ -54,8 +53,10 @@ public class ReadingData {
 			try {
 				jsonObject = new JSONObject(read);
 				String text = jsonObject.getString("text").toLowerCase();
+				text=text.replaceAll(System.getProperty("line.separator"), "");
+				text=text.replaceAll(",", " ");
 				if (tweetContains(text, keyWords)) {
-					System.out.println(text + "\n");
+					//System.out.println(read);
 					if (jsonObject.has("retweeted_status")) {
 						getRetweetCount(jsonObject, map, text);
 					} else {
@@ -78,23 +79,27 @@ public class ReadingData {
 	public void readData(String fileName) throws IOException {
 		String read = "";
 		int count = 0;
-		map = new HashMap<String, TweetData>();
-		System.out.println("Reading Tweets");
+		
+		
 
-		File folder = new File("/inputFiles/" + fileName);
+		File folder = new File("inputFiles/" + fileName);
 		File files[] = folder.listFiles();
 		for (File file : files) {
-			BufferedReader bf = new BufferedReader(new FileReader(file));
+			
+			if (file.getName().endsWith(".json")) {
+				map = new HashMap<String, TweetData>();
+				System.out.println("Reading Tweets");
+				BufferedReader bf = new BufferedReader(new FileReader(file));
 
-			String[] keyWords = (bf.readLine().split(","));
-			while ((read = bf.readLine()) != null) {
-				addRelevantTweet(read, keyWords);
-				TweetData data = new TweetData();
+				String[] keyWords = (bf.readLine().split(","));
+				while ((read = bf.readLine()) != null) {
+					addRelevantTweet(read, keyWords);
+				}
+				System.out.println("Done Reading Tweets\n Writing Tweets");
+				System.out.println(file.getName());
+				WriteTweets.writeTweets(map, file.getName().substring(0, file.getName().indexOf(".json")));
+				System.out.println("Done Writing Tweets\n");
 			}
-			System.out.println("Done Reading Tweets\n Writing Tweets");
-			System.out.println(map.get("555296885").Tweet);
-			WriteTweets.writeTweets(map, file.getName().substring(0, file.getName().indexOf(".json")));
-			System.out.println("Done Writing Tweets");
 		}
 	}
 
@@ -106,10 +111,11 @@ public class ReadingData {
 	 */
 	public void addTweetToMap(JSONObject jSONObject, HashMap<String, TweetData> map, String text) {
 		try {
+			String time=jSONObject.getString("created_at");
 			JSONObject id = jSONObject.getJSONObject("user");
 			if (id.getString("lang").equalsIgnoreCase("en")) {
 				String user_ID = id.getString("id_str");
-				fillMap(map, 0, user_ID, text);
+				fillMap(map, 0, user_ID, text,time);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -123,12 +129,13 @@ public class ReadingData {
 	 */
 	public void getRetweetCount(JSONObject jsonObject, HashMap<String, TweetData> map, String text) {
 		try {
+			String time= jsonObject.getString("created_at");
 			JSONObject arr = jsonObject.getJSONObject("retweeted_status");
 			if (arr.getString("lang").equalsIgnoreCase("en")) {
 				int retweetCount = arr.getInt("retweet_count");
 				JSONObject id = arr.getJSONObject("user");
 				String user_ID = id.getString("id_str");
-				fillMap(map, retweetCount, user_ID, text);
+				fillMap(map, retweetCount, user_ID, text,time);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -142,12 +149,14 @@ public class ReadingData {
 	 * @param id
 	 * @param text
 	 */
-	public void fillMap(HashMap<String, TweetData> map, int count, String id, String text) {
+	public void fillMap(HashMap<String, TweetData> map, int count, String id, String text,String time) {
 		TweetData data = new TweetData();
 		if (map.containsKey(id)) {
 			data = map.get(id);
 		}
+		data.Time=data.Time==null?time:data.Time;
 		count = Math.max(count, data.ReTweetCount);
+		data.ReTweetCount=count;
 		data.Tweet = data.Tweet == null ? text : data.Tweet;
 		map.put(id, data);
 	}
