@@ -9,8 +9,14 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Scanner;
+
+import javax.swing.plaf.metal.MetalIconFactory.FolderIcon16;
+
 import org.json.JSONObject;
 
 /**
@@ -21,6 +27,16 @@ public class ReadingData {
 
 	HashMap<String, TweetData> map = null;
 
+	
+	public boolean tweetContains(String text,String array[]){
+		if(text.contains(array[0].toLowerCase()))
+			return true;
+		for(int i=1;i<array.length;i++){
+			if(text.contains(array[i].toLowerCase()) && text.contains("stock"))
+				return true;
+		}
+		return false;
+	}
 	/**
 	 *
 	 * @param fileName
@@ -28,24 +44,26 @@ public class ReadingData {
 	 * @param companyID
 	 * @throws IOException
 	 */
-	public void readData(String fileName, String company, String companyID) throws IOException {
+	public void readData(String fileName) throws IOException {
 		String read = "";
 		int count = 0;
 		map = new HashMap<String, TweetData>();
 		System.out.println("Reading Tweets");
-		BufferedReader bf = new BufferedReader(
-				new FileReader(new File("/Users/surindersokhal/Documents/" + fileName + ".json")));
+		
+		File folder=new File("/inputFiles/"+fileName);
+		File files[]=folder.listFiles();
+		for(File file:files){
+		BufferedReader bf = new BufferedReader(new FileReader(file));
 		JSONObject jsonObject = null;
+		String[] keyWords=(bf.readLine().split(","));
 		while ((read = bf.readLine()) != null) {
 			TweetData data = new TweetData();
 
 			if (read.trim().length() > 10) {
 				try {
 					jsonObject = new JSONObject(read);
-					String text = jsonObject.getString("text");
-					System.out.println(text);
-					if ((text.contains("stock") && text.contains(companyID))
-							|| (text.contains("stock") && text.contains(company)) || text.contains("stocks")) {
+					String text = jsonObject.getString("text").toLowerCase();
+					if (tweetContains(text,keyWords)) {
 						System.out.println(text + "\n");
 						if (jsonObject.has("retweeted_status")) {
 							getRetweetCount(jsonObject, map, text);
@@ -57,12 +75,13 @@ public class ReadingData {
 					// e.printStackTrace();
 				}
 			}
+			
 		}
 		System.out.println("Done Reading Tweets\n Writing Tweets");
 		System.out.println(map.get("555296885").Tweet);
 		WriteTweets.writeTweets(map, fileName);
 		System.out.println("Done Writing Tweets");
-
+		}
 	}
 
 	/**
@@ -128,9 +147,7 @@ public class ReadingData {
 		Scanner sc = new Scanner(System.in);
 		ReadingData rd = new ReadingData();
 		String fileName = sc.nextLine();
-		String comapny = sc.nextLine();
-		String companyID = sc.nextLine();
-		rd.readData(fileName, comapny, companyID);
+		rd.readData(fileName);
 	}
 
 }
