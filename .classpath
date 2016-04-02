@@ -7,5 +7,7 @@
 	<classpathentry kind="lib" path="jarRequired/slf4j-api-1.7.19.jar"/>
 	<classpathentry kind="lib" path="jarRequired/slf4j-simple-1.7.19.jar"/>
 	<classpathentry kind="lib" path="jarRequired/stanford-postagger.jar"/>
+	<classpathentry kind="lib" path="jarRequired/weka.jar"/>
+	<classpathentry kind="lib" path="jarRequired/org.apache.commons.io.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
