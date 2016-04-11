@@ -30,12 +30,12 @@ public class classification {
 		
 		//for dates
 		/***********************************************************************/
-		ArrayList<String> datesList = new ArrayList<String>();
+		/*	ArrayList<String> datesList = new ArrayList<String>();
 		for(int i=0;i<numOfInstances;i++)
 			datesList.add(dataset.instance(i).stringValue(1).substring(4, 10));
 		
 		Set<String> dates = new HashSet<String>(datesList);
-		System.out.println(dates);
+		System.out.println(dates);   */
 		/***********************************************************************/
 		
 		ArrayList<String> tweetList = new ArrayList<String>();
@@ -84,7 +84,7 @@ public class classification {
 		//SMO svm = new SMO();
 		NaiveBayes nb = new NaiveBayes();
 		
-		int seed = 35;
+		int seed = 25;
     	int folds = 5;
         int cIdx = finalDataSet.numAttributes()-1;
     	
@@ -169,7 +169,7 @@ public class classification {
 	{
 		classification c = new classification();
 		
-		Instances finalDataSet = c.createDataSetfromCSV("inputFiles/csv/wfc.csv");
+		Instances finalDataSet = c.createDataSetfromCSV("outputFiles/sentimentAnalysisInput.csv");
 		//Instances train = c.createDataSetfromCSV("inputFiles/csv/train.csv");
 		//Instances test = c.createDataSetfromCSV("inputFiles/csv/test.csv");
 		
