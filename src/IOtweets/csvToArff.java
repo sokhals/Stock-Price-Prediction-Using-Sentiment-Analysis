@@ -1,15 +1,16 @@
 package IOtweets;
 
-import org.apache.commons.io.FilenameUtils;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.util.Scanner;
 
-import weka.core.Instance;
-import weka.core.Instances;
-import weka.core.converters.ArffSaver;
-import weka.core.converters.CSVLoader;
+
+import com.opencsv.CSVParser;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+
 
 public class csvToArff {
 
@@ -21,66 +22,27 @@ public class csvToArff {
 	public void CSVToArff(String fileName) throws IOException
 	{
 		// load CSV
-		CSVLoader loader = new CSVLoader();
-		String arffFile = "";
-		
-		File folder = new File("inputFiles/" + fileName);
-		File files[] = folder.listFiles();
-		for (File file : files) {
-			if(file.getName().endsWith(".csv"))
-			{
-				loader.setSource(file);
-				Instances data = loader.getDataSet();	//get instances object
-				
-				// save ARFF
-				ArffSaver saver = new ArffSaver();
-				saver.setInstances(data);
-				
-				// and save as ARFF
-				String fileNameWithOutExt = FilenameUtils.removeExtension(file.getName());
-				arffFile = arffFile + "outputFiles/" + fileNameWithOutExt + ".arff";
-				
-				saver.setFile(new File(arffFile));
-				saver.writeBatch();
-				
-				readArffFile(arffFile);
+		CSVParser parser=new CSVParser();
+		try{
+			BufferedReader bf=new BufferedReader(new FileReader(new File(fileName)));
+			BufferedWriter bw=new BufferedWriter(new FileWriter(new File(fileName.substring(0,fileName.indexOf(".csv"))+"_Test.arff")));
+			bw.write("@relation sentimentAnalysis\n");
+			bw.write("@attribute Tweet_Text string\n");
+			bw.write("@attribute sentiment_class {neutral, positive, negative}\n\n");
+			bw.write("@data\n\n");
+			String line="";
+			bf.readLine();
+			bf.readLine();
+			while((line=bf.readLine())!=null){
+				String array[]=parser.parseLine(line);
+				bw.write("\""+array[2]+"\","+array[5]+"\n");
 			}
+			bf.close();
+			bw.flush();
+			bw.close();
+			
+		}catch(Exception e){
+			e.printStackTrace();
 		}
-	}
-	
-	//Added for testing
-	/**
-	 *
-	 * @param fileName
-	 * @throws IOException
-	 */
-	public void readArffFile(String arffFile) throws IOException
-	{
-		System.out.println(arffFile);
-		BufferedReader file = Utility.readFile(arffFile);
-    	
-        Instances data = new Instances(file);
-        
-        System.out.println("Number of data instances : " +data.numInstances());
-        data.setClassIndex(data.numAttributes()-1);
-        for(int i=0;i<data.numInstances();i++)
-        {
-        	Instance ins = data.instance(i);
-        	System.out.println((int)ins.classValue());
-        }
-	}
-	
-	
-	/**
-	 *
-	 * @param arg
-	 * @throws IOException
-	 */
-	public static void main(String args[]) throws IOException
-	{
-		Scanner sc = new Scanner(System.in);
-		csvToArff cta = new csvToArff();
-		String fileName = sc.nextLine();
-		cta.CSVToArff(fileName);	
 	}
 }

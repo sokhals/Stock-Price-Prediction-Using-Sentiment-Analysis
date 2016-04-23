@@ -17,6 +17,8 @@ public class TweetData implements java.io.Serializable {
     public String Time;
     public String Tweet;
     public int ReTweetCount;
+    public String sentiment="";
+    public String companyName="";
     public ArrayList<TaggedValues> tagedList=null;
     
     public class TaggedValues{

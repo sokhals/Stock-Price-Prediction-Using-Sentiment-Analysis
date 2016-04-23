@@ -34,7 +34,7 @@ public class WriteTweets {
 		String read="";
 		 HashSet<String> temp=new HashSet<String>();
 		while((read=bf.readLine())!=null){
-			temp.addAll(Arrays.asList(read.split(",")));
+			temp.addAll(Arrays.asList(read.split(";")));
 		}
 	
 		Iterator<String> iterator = temp.iterator();
@@ -43,33 +43,29 @@ public class WriteTweets {
 	        set.add(iterator.next().toLowerCase().trim());
 	    }
 	}
-	public static void readSentimentFiles(){
-		try{
-			BufferedReader bf=new BufferedReader(new FileReader(new File("inputFiles/positive.txt")));
-			BufferedReader bf1=new BufferedReader(new FileReader(new File("inputFiles/negative.txt")));
-			BufferedReader bf2=new BufferedReader(new FileReader(new File("inputFiles/negations.txt")));
-			readData(bf,pos);
-			readData(bf1,neg);
-			readData(bf2,negation);
-					
-		}catch(Exception e){
-			e.printStackTrace();
-		}
-	}
-    public static void writeTweets(HashMap<String, TweetData> map,String fileName) {
+	
+    public static void writeTweets(HashMap<String, TweetData> map,String fileName,boolean isCleanedProcessed) {
         try {
-            File file = new File("inputFiles/"+fileName+".csv");
+            File file = new File(fileName+".csv");
             BufferedWriter writer=new BufferedWriter(new FileWriter(file,true));
-            readSentimentFiles();
-            writer.write("UserID,Time,Tweet,sentiment,Retweet_Count");
+            
+            if(!isCleanedProcessed)
+            	writer.write("UserID;Time;Tweet;Retweet_Count;sentiment");
+            else
+            	writer.write("UserID;Time;Tweet;Retweet_Count;Company_Name;sentiment");
             
             for(String userID:map.keySet()){
             	TweetData data=map.get(userID);
             	String text=data.Tweet;
-            	int val=getSentiment(text);
-            	writer.write("\n"+userID+","+data.Time+","+data.Tweet+","+val+","+data.ReTweetCount);
-            	
+            	//int val=getSentiment(text);
+            	if(!isCleanedProcessed)
+            		{
+            		writer.write("\n"+userID+";"+data.Time+";"+data.Tweet.replaceAll("\"","").replaceAll(";", "")+";"+data.ReTweetCount+";"+"0");
+            		}
+            	else
+                	writer.write("\n"+userID+";"+data.Time+";"+data.Tweet.replaceAll("\"","")+";"+data.ReTweetCount+";"+data.companyName+";"+data.sentiment);
             }
+            
             writer.flush();
             writer.close();
         } catch (Exception e) {
